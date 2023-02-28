@@ -1,7 +1,7 @@
 
 const exp = require("express");
-const userApp = exp.Router();
-userApp.use(exp.json());
+const callbackApp = exp.Router();
+callbackApp.use(exp.json());
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 });
 
 // Define a GET endpoint for retrieving user data from the database
-userApp.get("/get-users", (req, res) => {
+callbackApp.get("/get-users", (req, res) => {
     try {
         // Attempt to connect to the MySQL database
         connection.connect((err) => {
@@ -39,7 +39,7 @@ userApp.get("/get-users", (req, res) => {
     }
 });
 
-userApp.post("/post", (req, res) => {
+callbackApp.post("/create-user", (req, res) => {
     try {
         // Get the request body as an object
         let userObj = req.body;
@@ -82,4 +82,4 @@ userApp.post("/post", (req, res) => {
 
 
 
-module.exports = userApp;
+module.exports = callbackApp;

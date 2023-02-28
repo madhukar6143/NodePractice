@@ -1,4 +1,4 @@
-const exp=require("express")
+const exp=require("express");
 const app=exp();
 
 
@@ -10,11 +10,13 @@ app.get('/', function (req, res) {
 })
 
 //import userApp&productApp
-const userApp = require("./module/querieswithcallbacks");
+const callbackApp= require("./module/querieswithcallbacks");
 const promiseApp = require("./module/querieswithpromise");
+const asyncApp = require("./module/querieswithasyncawait");
 //execute routes based on path
-app.use("/callback",userApp)
+app.use("/callback",callbackApp)
 app.use("/promise",promiseApp)
+app.use("/async",asyncApp)
 const port=5000
 app.listen(port,()=>console.log(`Server can hear you on ${port}....`))
 
