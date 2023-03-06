@@ -1,12 +1,28 @@
 const exp=require("express");
 const app=exp();
+const axios = require('axios');
+
 
 
 
 //homepage
 app.get('/', function (req, res) {
-  console.log("Got a GET request for the homepage");
-  res.send('Hello GET');
+  
+  axios.get('https://www.ncei.noaa.gov/cdo-web/webservices/v2/datasets',
+    {headers: {token: "eJwfgCcxLxQVkQFQXIphWyrmRBPYSvqu"}
+  })
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.log("err mess",error.message);
+  });
+  
+  
+  
+  
+  
+  
 })
 
 //import userApp&productApp
