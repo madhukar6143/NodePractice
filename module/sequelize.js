@@ -66,7 +66,7 @@ sequelizeApp.get("/insert-data", (req, res) => {
 });
 
 
-sequelizeApp.get("/insert-data", (req, res) => {
+sequelizeApp.get("/create-data", (req, res) => {
     try {
         // Get the request body as an object
          sequelize.sync().then(() => {
