@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'madhu',
-    database: 'myfirstdb'
+    database: 'mydb'
 });
 
 // Define a GET endpoint for retrieving user data from the database
@@ -39,7 +39,7 @@ callbackApp.get("/get-users", (req, res) => {
 });
 
 
-callbackApp.post("/create-user", (req, res) => {
+callbackApp.post("/create-student", (req, res) => {
     try {
         // Get the request body as an object
         let userObj = req.body;
@@ -52,10 +52,10 @@ callbackApp.post("/create-user", (req, res) => {
             }
 
             // Define the SQL query to insert a new record into the 'users' table
-            const sql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
+            const sql = 'INSERT INTO students ( roll_no, name)  VALUES (?, ?)';
 
             // Define the values to be inserted into the new record
-            values = [userObj.username, userObj.password, userObj.email];
+            values = [userObj.roll_no, userObj.name];
 
             // Execute the SQL query using the 'query' method of the 'connection' object
             connection.query(sql, values, (error, result) => {
@@ -73,6 +73,44 @@ callbackApp.post("/create-user", (req, res) => {
         return res.status(500).send({ error: error.message });
     }
 });
+
+
+
+callbackApp.post("/givemarks", (req, res) => {
+    try {
+        // Get the request body as an object
+        let userObj = req.body;
+
+        // Connect to the MySQL database using the 'connection' object
+        connection.connect((err) => {
+            if (err) {
+                // Handle connection errors and return a 500 status code with an error message
+                return res.status(500).send({ 'Error connecting to database': err.message });
+            }
+
+            // Define the SQL query to insert a new record into the 'users' table
+            const sql = 'INSERT INTO marks (sub_id, subject, marks, roll_no)VALUES (?, ?,?,?)';
+
+            // Define the values to be inserted into the new record
+            values = [userObj.sub_id, userObj.subject,userObj.marks,userObj.roll_no];
+
+            // Execute the SQL query using the 'query' method of the 'connection' object
+            connection.query(sql, values, (error, result) => {
+                if (error) {
+                    // Handle database errors and return a 500 status code with an error message
+                    return res.status(500).send({ 'Error inserting record': error.message });
+                }
+                // Return a 200 status code with a success message if the new record is inserted successfully
+                return res.status(200).send('New record inserted!');
+            });
+        });
+
+    } catch (error) {
+        // Handle any other errors that may occur and return a 500 status code with an error message
+        return res.status(500).send({ error: error.message });
+    }
+});
+
 
 
 callbackApp.get("/innerjoin", (req, res) => {
